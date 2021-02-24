@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Photo Gallery</title>
+
+    <!-- https://google.github.io/material-design-icons/#icon-font-for-the-web -->
+    <!-- Using via Google Web Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <!-- https://tailwindcss.com/docs/installation -->
+    <!-- Using Tailwind via CDN -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a7ef51f3aa.js" crossorigin="anonymous"></script>
+
+    <!-- https://v3.vuejs.org/guide/installation.html#release-notes -->
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body class="w-screen overflow-x-hidden bg-gray-200" style="font-family: 'Quicksand', sans-serif;">
+    <div id="app">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-3 gap-4">
+                <div class="mt-6">
+                    <div v-if="searchClicked">
+                        <div class="flex">
+                            <input v-model="inputSearch" placeholder="What are you craving for?"
+                                class="p-2 bg-white w-10/12 rounded border">
+                            <button class="p-2 bg-blue-500 rounded ml-2 text-white hover:bg-blue-900"
+                                v-on:click="switchSearchClicked()">Cancel</button>
+                        </div>
+                    </div>
+                    <i class="fas fa-search text-2xl cursor-pointer" v-on:click="switchSearchClicked()" v-else></i>
+                    <p class="text-xl mt-4" v-if="inputSearch==''">Total Menu: {{ photoAmount }}</p>
+                    <p class="text-xl mt-4" v-else>Total Search Result: {{ searchAmount }}</p>
+                </div>
+                <div>
+                    <div class="bg-black my-6 py-8 rounded">
+                        <h1 class="font-bold text-3xl text-center text-white">Swenzen's Menu </h1>
+                    </div>
+                    <div id="imgCanvas">
+                        <div class="bg-white text-xl rounded font-medium mt-6 h-9/12 py-4">
+                            <div class="bg-black rounded mx-4" v-if="showImages">
+                                <i class="fas fa-times text-white text-3xl p-2" @click="close()"></i>
+                                <img :src="gallery[currentIndex].img">
+                            </div>
+                            <p class="pt-2 text-center text-lg" v-if="showImages"> {{ gallery[currentIndex].menuTitle }}
+                            </p>
+                            <p class="p-4" v-else>Preview images goes here.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-2xl text-center font-medium rounded mt-6">
+                    Liked: {{ likeAmount }}
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mt-8">
+                <div v-for="photo in searchMenu">
+                    <div class="flex bg-white rounded-lg items-center shadow-lg border-grey border">
+                        <i class="fas fa-heart text-red-500 text-xl ml-10 cursor-pointer" v-if="photo.click"
+                            v-on:click="favClicked(photo.id)"></i>
+                        <i class="far fa-heart text-xl ml-10 cursor-pointer" v-else
+                            v-on:click="favClicked(photo.id)"></i>
+                        <img :src="photo.img" class="w-4/12 cursor-pointer" @click="imgClicked(photo.id)">
+                        <p class="text-xl font-medium"> {{ photo.menuTitle }}</p>
+                    </div>
+                </div>
+                <br>
+                <p v-if="notFound">We can't find what you are looking for... :(</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- my main.js -->
+    <script src="./main.js"></script>
+</body>
+
+</html>
