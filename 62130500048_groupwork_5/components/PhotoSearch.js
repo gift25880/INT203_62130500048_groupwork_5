@@ -34,6 +34,7 @@ app.component('photo-search', {
             if (this.searchClicked == false) {
                 this.inputSearch = '';
             }
+            this.$emit('search-text', this.inputSearch);
         },
         searchText() {
             this.$emit('search-text', this.inputSearch);

@@ -30,33 +30,21 @@
             <div class="grid grid-cols-3 gap-4">
                 <div class="mt-6">
                     <!--search-->
-                    <photo-search :gallery="gallery" @search-text="searchText" :inputSearch="inputSearch"></photo-search>
-
-                    
-                   
+                    <photo-search :gallery="gallery" @search-text="searchText"></photo-search>
                 </div>
                 <div>
                     <div class="bg-black my-6 py-8 rounded">
                         <h1 class="font-bold text-3xl text-center text-white">Swenzen's Menu </h1>
                     </div>
-                    <div id="imgCanvas">
-                        <div class="bg-white text-xl rounded font-medium mt-6 h-9/12 py-4">
-                            <div class="bg-black rounded mx-4" v-if="showImages">
-                                <i class="fas fa-times text-white text-3xl p-2" @click="close()"></i>
-                                <img :src="gallery[currentIndex].img">
-                            </div>
-                            <p class="pt-2 text-center text-lg" v-if="showImages"> {{ gallery[currentIndex].menuTitle }}
-                            </p>
-                            <p class="p-4" v-else>Preview images goes here.</p>
-                        </div>
-                    </div>
+                    <!--view-->
+                    <photo-view :gallery="gallery" :menu-id="currentIndex" :show-images="showImagesStatus" @close="close"></photo-view>
                 </div>
                 <div class="text-2xl text-center font-medium rounded mt-6">
                     Liked: {{ likeAmount }}
                 </div>
             </div>
             <!--list-->
-            <photo-item :gallery="gallery" :not-found="notFound" :search-menu="searchMenu"></photo-item>
+            <photo-item :gallery="gallery" :not-found="notFound" :search-menu="searchMenu" @img-clicked="imgClicked" @show-images="showImages"></photo-item>
         </div>
 
     </div>
@@ -65,6 +53,7 @@
     <script src="./main.js"></script>
     <script src="./components/PhotoSearch.js"></script>
     <script src="./components/PhotoItem.js"></script>
+    <script src="./components/PhotoView.js"></script>
     <script>
         const mountedApp = app.mount('#app');
     </script>

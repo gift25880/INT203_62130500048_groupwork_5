@@ -13,16 +13,23 @@ const app = Vue.createApp({
                 { id: 8, img: "./images/earthquake.png", menuTitle: "The EarthQuake", click: false }
             ],
             inputSearch: '',
-            showImages: false,
             notFound: false,
+            currentIndex: 0,
+            showImagesStatus: false
         }
     },
     methods: {
-        close() {
-            this.showImages = false;
-        },
         searchText(searchText) {
             this.inputSearch = searchText;
+        },
+        imgClicked(index) {
+            this.currentIndex = index;
+        },
+        showImages(showImg) {
+            this.showImagesStatus = showImg;
+        },
+        close() {
+            this.showImagesStatus = false;
         }
 
     },
@@ -31,13 +38,17 @@ const app = Vue.createApp({
             return this.gallery.filter(n => n.click).length;
         },
         searchMenu() {
-            let menu = this.gallery.filter(n => n.menuTitle.toLowerCase().includes(this.inputSearch.toLowerCase()));
-            if (menu == '') {
-                this.notFound = true;
+            this.notFound = false;
+            if (this.inputSearch == '') {
+                return this.gallery;
             } else {
-                this.notFound = false;
+                menu = this.gallery.filter(n => n.menuTitle.toLowerCase().includes(this.inputSearch.toLowerCase()));
+                if (menu == '') {
+                    this.notFound = true;
+                } else {
+                    return menu;
+                }
             }
-            return menu;
         }
     }
 })

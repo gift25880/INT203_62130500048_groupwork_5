@@ -25,13 +25,21 @@ app.component('photo-item', {
         <p v-if="notFound">We can't find what you are looking for... :(</p>
     </div>
     `,
+    data() {
+        return {
+            currentIndex: 0,
+            showImagesStatus: false
+        }
+    },
     methods: {
-        favClicked(index) {
-            this.gallery[index].click = !this.gallery[index].click;
+        favClicked(id) {
+            this.gallery[id].click = !this.gallery[id].click;
         },
-        imgClicked(index) {
-            this.showImages = true;
-            this.currentIndex = index;
+        imgClicked(id) {
+            this.currentIndex = id;
+            this.showImagesStatus = true;
+            this.$emit('img-clicked', this.currentIndex);
+            this.$emit('show-images', this.showImagesStatus)
         }
     }
 })
