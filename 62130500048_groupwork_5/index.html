@@ -29,17 +29,11 @@
         <div class="container mx-auto">
             <div class="grid grid-cols-3 gap-4">
                 <div class="mt-6">
-                    <div v-if="searchClicked">
-                        <div class="flex">
-                            <input v-model="inputSearch" placeholder="What are you craving for?"
-                                class="p-2 bg-white w-10/12 rounded border">
-                            <button class="p-2 bg-blue-500 rounded ml-2 text-white hover:bg-blue-900"
-                                v-on:click="switchSearchClicked()">Cancel</button>
-                        </div>
-                    </div>
-                    <i class="fas fa-search text-2xl cursor-pointer" v-on:click="switchSearchClicked()" v-else></i>
-                    <p class="text-xl mt-4" v-if="inputSearch==''">Total Menu: {{ photoAmount }}</p>
-                    <p class="text-xl mt-4" v-else>Total Search Result: {{ searchAmount }}</p>
+                    <!--search-->
+                    <photo-search :gallery="gallery" @search-text="searchText" :inputSearch="inputSearch"></photo-search>
+
+                    
+                   
                 </div>
                 <div>
                     <div class="bg-black my-6 py-8 rounded">
@@ -61,26 +55,19 @@
                     Liked: {{ likeAmount }}
                 </div>
             </div>
-            <div class="grid grid-cols-3 gap-4 mt-8">
-                <div v-for="photo in searchMenu">
-                    <div class="flex bg-white rounded-lg items-center shadow-lg border-grey border">
-                        <i class="fas fa-heart text-red-500 text-xl ml-10 cursor-pointer" v-if="photo.click"
-                            v-on:click="favClicked(photo.id)"></i>
-                        <i class="far fa-heart text-xl ml-10 cursor-pointer" v-else
-                            v-on:click="favClicked(photo.id)"></i>
-                        <img :src="photo.img" class="w-4/12 cursor-pointer" @click="imgClicked(photo.id)">
-                        <p class="text-xl font-medium"> {{ photo.menuTitle }}</p>
-                    </div>
-                </div>
-                <br>
-                <p v-if="notFound">We can't find what you are looking for... :(</p>
-            </div>
+            <!--list-->
+            <photo-item :gallery="gallery" :not-found="notFound" :search-menu="searchMenu"></photo-item>
         </div>
 
     </div>
 
     <!-- my main.js -->
     <script src="./main.js"></script>
+    <script src="./components/PhotoSearch.js"></script>
+    <script src="./components/PhotoItem.js"></script>
+    <script>
+        const mountedApp = app.mount('#app');
+    </script>
 </body>
 
 </html>
